@@ -3,11 +3,7 @@
 // Welcome message (optional)
 document.addEventListener('DOMContentLoaded', function() {
     const teacherName = localStorage.getItem("teacherName");
-    if (teacherName) {
-        console.log('Welcome, ' + teacherName);
-    } else {
-        console.log('Welcome to Timetable Manager');
-    }
+    // Welcome functionality can be added here if needed
 });
 
 let currentTimetable = {};
@@ -253,44 +249,72 @@ function showConfirmationButton() {
     suggestionsSection.appendChild(confirmBtn);
 }
 
-function scheduleClass() {
+async function scheduleClass() {
     if (!selectedSuggestion) return;
     
     addLogEntry('🚀 Scheduling class...', 'info');
     
-    // Add to timetable
-    currentTimetable[selectedSuggestion.time][selectedSuggestion.day] = {
-        subject: selectedSuggestion.subject,
-        class: selectedSuggestion.class,
-        room: selectedSuggestion.room,
-        type: selectedSuggestion.classType
-    };
-    
-    // Update timetable display
-    renderTimetable();
-    
-    // Simulate additional actions based on class type
-    if (selectedSuggestion.classType === 'Online (Google Meet)') {
-        addLogEntry('📧 Creating Google Meet link...', 'info');
-        setTimeout(() => {
-            addLogEntry('✅ Google Meet created: meet.google.com/abc-defg-hij', 'success');
+    try {
+        // Prepare data for backend API
+        const scheduleData = {
+            year: document.getElementById('academicYear').value,
+            branch: document.getElementById('branch').value,
+            section: document.getElementById('section').value,
+            day: selectedSuggestion.day,
+            mode: selectedSuggestion.classType === 'Online (Google Meet)' ? 'online' : 'offline'
+        };
+        
+        // Call backend API
+        const response = await fetch('http://localhost:5001/schedule_class', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(scheduleData)
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Add to local timetable
+        currentTimetable[selectedSuggestion.time][selectedSuggestion.day] = {
+            subject: selectedSuggestion.subject,
+            class: selectedSuggestion.class,
+            room: selectedSuggestion.room,
+            type: selectedSuggestion.classType
+        };
+        
+        // Update timetable display
+        renderTimetable();
+        
+        // Handle meeting link if online
+        if (selectedSuggestion.classType === 'Online (Google Meet)') {
+            addLogEntry('📧 Creating Google Meet link...', 'info');
+            addLogEntry(`✅ Google Meet created: ${data.meeting_link}`, 'success');
             addLogEntry('📧 Sending meeting link via email to students...', 'info');
-            setTimeout(() => {
-                addLogEntry('✅ Meeting notifications sent successfully!', 'success');
-            }, 1500);
-        }, 1000);
-    } else {
-        addLogEntry('📋 Room booking confirmed', 'success');
+            addLogEntry('✅ Meeting notifications sent successfully!', 'success');
+        } else {
+            addLogEntry('📋 Room booking confirmed', 'success');
+        }
+        
+        addLogEntry(`✅ Class scheduled successfully for ${selectedSuggestion.day} at ${data.slot}:00`, 'success');
+        
+        // Hide suggestions and reset form
+        setTimeout(() => {
+            suggestionsSection.classList.add('hidden');
+            resetForm();
+            selectedSuggestion = null;
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Error scheduling class:', error);
+        addLogEntry('❌ Error scheduling class: ' + error.message, 'error');
+        alert('Error scheduling class: ' + error.message);
     }
-    
-    addLogEntry(`✅ Class scheduled successfully for ${selectedSuggestion.day} at ${selectedSuggestion.time}`, 'success');
-    
-    // Hide suggestions and reset form
-    setTimeout(() => {
-        suggestionsSection.classList.add('hidden');
-        resetForm();
-        selectedSuggestion = null;
-    }, 2000);
 }
 
 function resetForm() {
@@ -325,7 +349,6 @@ function addLogEntry(message, type = 'info') {
 
 // Global logout function
 function logout() {
-    console.log('Logout function called (disabled for direct access)');
     // localStorage.removeItem("teacherName");
     // window.location.href = "login.html";
 }

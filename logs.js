@@ -3,11 +3,7 @@
 // Welcome message (optional)
 document.addEventListener('DOMContentLoaded', function() {
     const teacherName = localStorage.getItem("teacherName");
-    if (teacherName) {
-        console.log('Welcome, ' + teacherName);
-    } else {
-        console.log('Welcome to Execution Logs');
-    }
+    // Welcome functionality can be added here if needed
 });
 
 let allLogs = [];
@@ -122,10 +118,37 @@ searchFilter.addEventListener('input', filterLogs);
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    allLogs = [...mockLogs];
+    loadExecutionLogs();
+});
+
+async function loadExecutionLogs() {
+    try {
+        const response = await fetch('http://localhost:5001/execution_log');
+        if (response.ok) {
+            const backendLogs = await response.json();
+            // Convert backend logs to our format
+            allLogs = backendLogs.map((log, index) => ({
+                id: index + 1,
+                timestamp: new Date(),
+                workflow: 'system',
+                action: 'Execution Log',
+                status: 'info',
+                message: log,
+                details: 'Backend execution log entry'
+            }));
+        } else {
+            // Fallback to mock data if backend is not available
+            allLogs = [...mockLogs];
+        }
+    } catch (error) {
+        console.error('Error loading execution logs:', error);
+        // Fallback to mock data
+        allLogs = [...mockLogs];
+    }
+    
     filteredLogs = [...allLogs];
     renderLogs();
-});
+}
 
 function filterLogs() {
     const workflow = workflowFilter.value;
@@ -261,20 +284,9 @@ function formatTime(date) {
     });
 }
 
-function refreshLogs() {
-    // Simulate adding new logs
-    const newLog = {
-        id: allLogs.length + 1,
-        timestamp: new Date(),
-        workflow: 'quiz',
-        action: 'System Check',
-        status: 'info',
-        message: 'System health check completed',
-        details: 'All services running normally'
-    };
-    
-    allLogs.unshift(newLog);
-    filterLogs();
+async function refreshLogs() {
+    // Reload logs from backend
+    await loadExecutionLogs();
     
     // Show refresh notification
     const notification = document.createElement('div');
@@ -301,7 +313,6 @@ function exportLogs() {
 
 // Global logout function
 function logout() {
-    console.log('Logout function called (disabled for direct access)');
     // localStorage.removeItem("teacherName");
     // window.location.href = "login.html";
 }

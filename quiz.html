@@ -137,8 +137,30 @@
                     <p><strong>Canvas Link:</strong> <a href="#" class="underline">View Quiz</a></p>
                 </div>
                 <button onclick="location.reload()" class="btn btn-primary">
-                    Create Another Quiz
+                    Start New Quiz
                 </button>
+            </div>
+        </div>
+
+        <!-- Pending and Published Quizzes -->
+        <div class="card p-8 mb-6">
+            <h3 class="text-2xl font-bold mb-4">📚 Quiz Management</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Pending Quizzes -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-yellow-600">⏳ Pending Quizzes</h4>
+                    <div id="pendingQuizzes" class="space-y-2">
+                        <p class="text-gray-500">Loading pending quizzes...</p>
+                    </div>
+                </div>
+                
+                <!-- Published Quizzes -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-green-600">✅ Published Quizzes</h4>
+                    <div id="publishedQuizzes" class="space-y-2">
+                        <p class="text-gray-500">Loading published quizzes...</p>
+                    </div>
+                </div>
             </div>
         </div>
 
