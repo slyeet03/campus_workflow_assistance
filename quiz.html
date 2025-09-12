@@ -5,21 +5,189 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Generator - CampusFlow</title>
     <link rel="stylesheet" href="dist/output.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-20px) translateY(-10px); }
+            50% { transform: translateX(20px) translateY(10px); }
+            75% { transform: translateX(-10px) translateY(20px); }
+        }
+        
+        .premium-navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .premium-card {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .premium-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .premium-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .premium-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, #5b5cf0 0%, #7c3aed 100%);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(99, 102, 241, 0.02);
+        }
+        
+        .upload-area:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .form-input {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        .progress-step.inactive {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .progress-line {
+            height: 2px;
+            background: #e5e7eb;
+            flex: 1;
+            margin: 0 1rem;
+        }
+    </style>
 </head>
-<body>
-    <nav class="navbar p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold text-white">CampusFlow</h1>
-        <div class="space-x-6">
-            <a href="app.html" class="nav-link text-white hover:text-blue-200">Dashboard</a>
-            <a href="quiz.html" class="nav-link text-white active">Quiz</a>
-            <a href="timetable.html" class="nav-link text-white hover:text-blue-200">Timetable</a>
-            <a href="logs.html" class="nav-link text-white hover:text-blue-200">Logs</a>
-            <a href="#" onclick="logout()" class="nav-link text-white logout">Logout</a>
+<body class="text-gray-800">
+    <!-- Premium Navbar -->
+    <nav class="premium-navbar p-6 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <span class="text-white font-bold text-lg">CF</span>
+            </div>
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">CampusFlow</h1>
+        </div>
+        <div class="flex items-center space-x-2">
+            <a href="index.html" class="nav-link text-gray-700 font-medium hover:text-indigo-600">Home</a>
+            <a href="quiz.html" class="nav-link text-indigo-600 font-medium">Quiz</a>
+            <a href="timetable.html" class="nav-link text-gray-700 font-medium hover:text-indigo-600">Timetable</a>
+            <a href="logs.html" class="nav-link text-gray-700 font-medium hover:text-indigo-600">Logs</a>
+            <a href="#" onclick="logout()" class="nav-link text-gray-700 font-medium bg-red-50 hover:bg-red-100 hover:text-red-600">Logout</a>
         </div>
     </nav>
 
-    <div class="max-w-6xl mx-auto p-6">
-        <h2 class="text-3xl font-bold mb-8 text-center">📄 AI Quiz Generator</h2>
+    <div class="max-w-6xl mx-auto p-8">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4 text-gray-900">📄 AI Quiz Generator</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Upload your lecture materials and let AI create comprehensive quizzes with intelligent question generation.
+            </p>
+        </div>
         
         <!-- Progress Steps -->
         <div class="progress-container">
@@ -45,8 +213,8 @@
         </div>
 
         <!-- Step 1: Upload PPT -->
-        <div id="uploadSection" class="card p-8 mb-6">
-            <h3 class="text-2xl font-bold mb-4">Step 1: Upload Lecture Material</h3>
+        <div id="uploadSection" class="premium-card p-8 mb-6">
+            <h3 class="text-2xl font-bold mb-6 text-gray-900">Step 1: Upload Lecture Material</h3>
             <div class="upload-area">
                 <input type="file" id="pptUpload" accept=".ppt,.pptx,.pdf" class="hidden">
                 <div class="cursor-pointer" onclick="document.getElementById('pptUpload').click()">
@@ -63,8 +231,8 @@
         </div>
 
         <!-- Step 2: Quiz Configuration -->
-        <div id="configSection" class="card p-8 mb-6 hidden">
-            <h3 class="text-2xl font-bold mb-4">Step 2: Quiz Configuration</h3>
+        <div id="configSection" class="premium-card p-8 mb-6 hidden">
+            <h3 class="text-2xl font-bold mb-6 text-gray-900">Step 2: Quiz Configuration</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="form-group">
                     <label class="form-label">Number of Questions</label>
@@ -83,14 +251,14 @@
                     <input type="number" id="marksPerQuestion" class="form-input" value="10" min="1" max="100">
                 </div>
             </div>
-            <button id="generateQuizBtn" class="btn btn-primary btn-full mt-6">
+            <button id="generateQuizBtn" class="premium-btn w-full mt-6">
                 Generate Quiz
             </button>
         </div>
 
         <!-- Step 3: Generated Quiz Preview -->
-        <div id="quizPreviewSection" class="card p-8 mb-6 hidden">
-            <h3 class="text-2xl font-bold mb-4">Step 3: Generated Quiz Preview</h3>
+        <div id="quizPreviewSection" class="premium-card p-8 mb-6 hidden">
+            <h3 class="text-2xl font-bold mb-6 text-gray-900">Step 3: Generated Quiz Preview</h3>
             <div id="quizContent" class="space-y-6">
                 <!-- Quiz questions will be populated here -->
             </div>
@@ -114,19 +282,19 @@
                             <input type="text" id="newQuestionText" class="form-input" placeholder="Enter new question...">
                         </div>
                     </div>
-                    <button id="updateQuestionBtn" class="btn btn-warning mt-4">
+                    <button id="updateQuestionBtn" class="premium-btn mt-4">
                         Update Question
                     </button>
                 </div>
             </div>
 
-            <button id="publishQuizBtn" class="btn btn-success btn-full mt-6">
+            <button id="publishQuizBtn" class="premium-btn w-full mt-6">
                 Publish Quiz to Canvas
             </button>
         </div>
 
         <!-- Step 4: Success Message -->
-        <div id="successSection" class="card p-8 mb-6 hidden">
+        <div id="successSection" class="premium-card p-8 mb-6 hidden">
             <div class="text-center">
                 <div class="text-6xl mb-4">✅</div>
                 <h3 class="text-2xl font-bold mb-4 text-green-600">Quiz Published Successfully!</h3>
@@ -136,15 +304,15 @@
                     <p><strong>Due Date:</strong> 7 days from now</p>
                     <p><strong>Canvas Link:</strong> <a href="#" class="underline">View Quiz</a></p>
                 </div>
-                <button onclick="location.reload()" class="btn btn-primary">
+                <button onclick="location.reload()" class="premium-btn">
                     Start New Quiz
                 </button>
             </div>
         </div>
 
         <!-- Pending and Published Quizzes -->
-        <div class="card p-8 mb-6">
-            <h3 class="text-2xl font-bold mb-4">📚 Quiz Management</h3>
+        <div class="premium-card p-8 mb-6">
+            <h3 class="text-2xl font-bold mb-6 text-gray-900">📚 Quiz Management</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Pending Quizzes -->
                 <div>
@@ -165,8 +333,8 @@
         </div>
 
         <!-- Execution Log -->
-        <div class="card p-8">
-            <h3 class="text-2xl font-bold mb-4">🤖 AI Execution Log</h3>
+        <div class="premium-card p-8">
+            <h3 class="text-2xl font-bold mb-6 text-gray-900">🤖 AI Execution Log</h3>
             <div id="executionLog" class="execution-log">
                 <div class="log-entry">
                     <div class="log-dot info"></div>
