@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Generator - CampusFlow</title>
+    <link rel="stylesheet" href="dist/output.css">
+</head>
+<body>
+    <nav class="navbar p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">CampusFlow</h1>
+        <div class="space-x-6">
+            <a href="app.html" class="nav-link text-white hover:text-blue-200">Dashboard</a>
+            <a href="quiz.html" class="nav-link text-white active">Quiz</a>
+            <a href="timetable.html" class="nav-link text-white hover:text-blue-200">Timetable</a>
+            <a href="logs.html" class="nav-link text-white hover:text-blue-200">Logs</a>
+            <a href="#" onclick="logout()" class="nav-link text-white logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="max-w-6xl mx-auto p-6">
+        <h2 class="text-3xl font-bold mb-8 text-center">📄 AI Quiz Generator</h2>
+        
+        <!-- Progress Steps -->
+        <div class="progress-container">
+            <div class="flex items-center">
+                <div id="step1" class="progress-step active">1</div>
+                <span class="ml-2 text-sm font-medium">Upload PPT</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="flex items-center">
+                <div id="step2" class="progress-step inactive">2</div>
+                <span class="ml-2 text-sm font-medium">Summarize</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="flex items-center">
+                <div id="step3" class="progress-step inactive">3</div>
+                <span class="ml-2 text-sm font-medium">Generate Quiz</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="flex items-center">
+                <div id="step4" class="progress-step inactive">4</div>
+                <span class="ml-2 text-sm font-medium">Publish</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Upload PPT -->
+        <div id="uploadSection" class="card p-8 mb-6">
+            <h3 class="text-2xl font-bold mb-4">Step 1: Upload Lecture Material</h3>
+            <div class="upload-area">
+                <input type="file" id="pptUpload" accept=".ppt,.pptx,.pdf" class="hidden">
+                <div class="cursor-pointer" onclick="document.getElementById('pptUpload').click()">
+                    <div class="upload-icon">📄</div>
+                    <p class="text-xl font-semibold mb-2">Click to upload PPT/PDF</p>
+                    <p class="text-gray-500">Supports .ppt, .pptx, .pdf files</p>
+                </div>
+            </div>
+            <div id="uploadStatus" class="mt-4 hidden">
+                <div class="status-message status-success">
+                    <span id="fileName"></span> uploaded successfully!
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Quiz Configuration -->
+        <div id="configSection" class="card p-8 mb-6 hidden">
+            <h3 class="text-2xl font-bold mb-4">Step 2: Quiz Configuration</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label class="form-label">Number of Questions</label>
+                    <input type="number" id="numQuestions" class="form-input" value="10" min="1" max="50">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Time Limit (minutes)</label>
+                    <input type="number" id="timeLimit" class="form-input" value="30" min="5" max="180">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Total Marks</label>
+                    <input type="number" id="totalMarks" class="form-input" value="100" min="10" max="1000">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Marks per Question</label>
+                    <input type="number" id="marksPerQuestion" class="form-input" value="10" min="1" max="100">
+                </div>
+            </div>
+            <button id="generateQuizBtn" class="btn btn-primary btn-full mt-6">
+                Generate Quiz
+            </button>
+        </div>
+
+        <!-- Step 3: Generated Quiz Preview -->
+        <div id="quizPreviewSection" class="card p-8 mb-6 hidden">
+            <h3 class="text-2xl font-bold mb-4">Step 3: Generated Quiz Preview</h3>
+            <div id="quizContent" class="space-y-6">
+                <!-- Quiz questions will be populated here -->
+            </div>
+            
+            <div class="mt-8 p-4 status-message status-warning">
+                <h4 class="font-semibold mb-2">Make any changes?</h4>
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="makeChanges" class="mr-2">
+                        <span>Yes, I want to modify the quiz</span>
+                    </label>
+                </div>
+                <div id="changeOptions" class="mt-4 hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Question Number to Change</label>
+                            <input type="number" id="questionToChange" class="form-input" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">New Question Text</label>
+                            <input type="text" id="newQuestionText" class="form-input" placeholder="Enter new question...">
+                        </div>
+                    </div>
+                    <button id="updateQuestionBtn" class="btn btn-warning mt-4">
+                        Update Question
+                    </button>
+                </div>
+            </div>
+
+            <button id="publishQuizBtn" class="btn btn-success btn-full mt-6">
+                Publish Quiz to Canvas
+            </button>
+        </div>
+
+        <!-- Step 4: Success Message -->
+        <div id="successSection" class="card p-8 mb-6 hidden">
+            <div class="text-center">
+                <div class="text-6xl mb-4">✅</div>
+                <h3 class="text-2xl font-bold mb-4 text-green-600">Quiz Published Successfully!</h3>
+                <p class="text-gray-600 mb-4">Your quiz has been published to Canvas and students will be notified.</p>
+                <div class="status-message status-info mb-4">
+                    <p><strong>Quiz ID:</strong> QUIZ-2024-001</p>
+                    <p><strong>Due Date:</strong> 7 days from now</p>
+                    <p><strong>Canvas Link:</strong> <a href="#" class="underline">View Quiz</a></p>
+                </div>
+                <button onclick="location.reload()" class="btn btn-primary">
+                    Create Another Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Execution Log -->
+        <div class="card p-8">
+            <h3 class="text-2xl font-bold mb-4">🤖 AI Execution Log</h3>
+            <div id="executionLog" class="execution-log">
+                <div class="log-entry">
+                    <div class="log-dot info"></div>
+                    <div class="log-content">Waiting for file upload...</div>
+                    <div class="log-timestamp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="quiz.js"></script>
+</body>
+</html>

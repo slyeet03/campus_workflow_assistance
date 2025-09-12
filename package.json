@@ -1,0 +1,16 @@
+{
+  "name": "campusflow",
+  "version": "1.0.0",
+  "description": "AI-Powered Campus Workflow Assistant",
+  "main": "index.html",
+  "scripts": {
+    "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  },
+  "keywords": ["campus", "workflow", "ai", "automation"],
+  "author": "CampusFlow Team",
+  "license": "MIT"
+}

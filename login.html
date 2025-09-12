@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusFlow Login</title>
+  <link rel="stylesheet" href="dist/output.css">
+</head>
+<body class="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900">
+
+  <!-- Login Card -->
+  <div class="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/20">
+    <!-- Title -->
+    <h1 class="text-3xl font-bold text-white text-center mb-6">CampusFlow</h1>
+    <p class="text-gray-300 text-center mb-8">Teacher Login</p>
+
+    <!-- Form -->
+    <form class="space-y-6" onsubmit="return false;">
+      <!-- Teacher ID -->
+      <div>
+        <label for="teacherId" class="block text-sm font-medium text-gray-300 mb-2">Teacher ID</label>
+        <input type="text" id="teacherId" name="teacherId"
+          class="w-full px-4 py-3 rounded-lg bg-gray-900/70 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Enter your ID" required>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+        <input type="password" id="password" name="password"
+          class="w-full px-4 py-3 rounded-lg bg-gray-900/70 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="••••••••" required>
+      </div>
+
+      <!-- Submit -->
+      <button type="button" id="loginBtn" onclick="handleLogin()"
+        class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg transition duration-200">
+        Sign In
+      </button>
+      
+      <!-- Debug Button -->
+      <button type="button" onclick="testLogin()" 
+        class="w-full py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-lg transition duration-200 mt-2">
+        Test Login (Debug)
+      </button>
+      
+      <!-- Bypass Button -->
+      <button type="button" onclick="bypassLogin()" 
+        class="w-full py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-lg transition duration-200 mt-2">
+        Bypass Login (Test)
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <p class="text-gray-400 text-sm text-center mt-6">
+      © 2025 CampusFlow. All rights reserved.
+    </p>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

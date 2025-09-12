@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Timetable - CampusFlow</title>
+    <link rel="stylesheet" href="dist/output.css">
+</head>
+<body>
+    <nav class="navbar p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">CampusFlow</h1>
+        <div class="space-x-6">
+            <a href="app.html" class="nav-link text-white hover:text-blue-200">Dashboard</a>
+            <a href="quiz.html" class="nav-link text-white hover:text-blue-200">Quiz</a>
+            <a href="timetable.html" class="nav-link text-white active">Timetable</a>
+            <a href="logs.html" class="nav-link text-white hover:text-blue-200">Logs</a>
+            <a href="#" onclick="logout()" class="nav-link text-white logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto p-6">
+        <h2 class="text-3xl font-bold mb-8 text-center">📅 Smart Timetable Manager</h2>
+        
+        <!-- Class Scheduling Form -->
+        <div class="card p-8 mb-6">
+            <h3 class="text-2xl font-bold mb-6">Schedule New Class</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="form-group">
+                    <label class="form-label">Academic Year</label>
+                    <select id="academicYear" class="form-select">
+                        <option value="">Select Year</option>
+                        <option value="2024-25">2024-25</option>
+                        <option value="2023-24">2023-24</option>
+                        <option value="2022-23">2022-23</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Branch</label>
+                    <select id="branch" class="form-select">
+                        <option value="">Select Branch</option>
+                        <option value="CSE">Computer Science</option>
+                        <option value="ECE">Electronics & Communication</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="CE">Civil Engineering</option>
+                        <option value="EE">Electrical Engineering</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Section</label>
+                    <select id="section" class="form-select">
+                        <option value="">Select Section</option>
+                        <option value="A">Section A</option>
+                        <option value="B">Section B</option>
+                        <option value="C">Section C</option>
+                        <option value="D">Section D</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <input type="text" id="subject" class="form-input" placeholder="e.g., Data Structures">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Duration (hours)</label>
+                    <select id="duration" class="form-select">
+                        <option value="1">1 hour</option>
+                        <option value="1.5">1.5 hours</option>
+                        <option value="2">2 hours</option>
+                        <option value="3">3 hours</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Preferred Day (Optional)</label>
+                    <select id="preferredDay" class="form-select">
+                        <option value="">Any day</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <label class="form-label">Class Type</label>
+                <div class="flex space-x-6">
+                    <label class="flex items-center">
+                        <input type="radio" name="classType" value="offline" class="mr-2" checked>
+                        <span>Offline (Physical Classroom)</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="classType" value="online" class="mr-2">
+                        <span>Online (Google Meet)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <button id="findSlotBtn" class="btn btn-primary btn-full mt-6">
+                🤖 Find Best Time Slot
+            </button>
+        </div>
+
+        <!-- AI Suggestions -->
+        <div id="suggestionsSection" class="card p-8 mb-6 hidden">
+            <h3 class="text-2xl font-bold mb-4">🤖 AI Suggested Time Slots</h3>
+            <div id="suggestionsList" class="space-y-4">
+                <!-- Suggestions will be populated here -->
+            </div>
+        </div>
+
+        <!-- Current Timetable View -->
+        <div class="card p-8 mb-6">
+            <h3 class="text-2xl font-bold mb-6">Current Timetable</h3>
+            
+            <div class="timetable-container">
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetableBody">
+                        <!-- Timetable will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Execution Log -->
+        <div class="card p-8">
+            <h3 class="text-2xl font-bold mb-4">🤖 AI Execution Log</h3>
+            <div id="executionLog" class="execution-log">
+                <div class="log-entry">
+                    <div class="log-dot info"></div>
+                    <div class="log-content">Ready to schedule classes...</div>
+                    <div class="log-timestamp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="timetable.js"></script>
+</body>
+</html>

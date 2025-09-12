@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execution Logs - CampusFlow</title>
+    <link rel="stylesheet" href="dist/output.css">
+</head>
+<body>
+    <nav class="navbar p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">CampusFlow</h1>
+        <div class="space-x-6">
+            <a href="app.html" class="nav-link text-white hover:text-blue-200">Dashboard</a>
+            <a href="quiz.html" class="nav-link text-white hover:text-blue-200">Quiz</a>
+            <a href="timetable.html" class="nav-link text-white hover:text-blue-200">Timetable</a>
+            <a href="logs.html" class="nav-link text-white active">Logs</a>
+            <a href="#" onclick="logout()" class="nav-link text-white logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto p-6">
+        <h2 class="text-3xl font-bold mb-8 text-center">📊 AI Execution Logs</h2>
+        
+        <!-- Filter Controls -->
+        <div class="card p-6 mb-6">
+            <h3 class="text-xl font-bold mb-4">Filter Logs</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="form-group">
+                    <label class="form-label">Workflow Type</label>
+                    <select id="workflowFilter" class="form-select">
+                        <option value="">All Workflows</option>
+                        <option value="quiz">Quiz Generator</option>
+                        <option value="timetable">Timetable Manager</option>
+                        <option value="approval">Approval Workflow</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select id="statusFilter" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="success">Success</option>
+                        <option value="error">Error</option>
+                        <option value="warning">Warning</option>
+                        <option value="info">Info</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date Range</label>
+                    <input type="date" id="dateFilter" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Search</label>
+                    <input type="text" id="searchFilter" class="form-input" placeholder="Search logs...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Templates -->
+        <div class="card p-6 mb-6">
+            <h3 class="text-xl font-bold mb-4">🤖 AI Action Templates</h3>
+            <p class="text-gray-600 mb-4">Define what actions the AI agent is allowed to perform</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2">📄 Quiz Operations</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Generate quiz questions</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Publish to Canvas</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Send notifications</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2">📅 Timetable Operations</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Find time slots</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Schedule classes</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Create Google Meet</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2">📧 Communication</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Send emails</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span class="text-sm">Create notifications</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2">
+                            <span class="text-sm">Send SMS alerts</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Execution Logs -->
+        <div class="card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Recent Executions</h3>
+                <button class="btn btn-primary" onclick="refreshLogs()">Refresh</button>
+            </div>
+            
+            <div id="logsContainer" class="space-y-4">
+                <!-- Log entries will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="logs.js"></script>
+</body>
+</html>
