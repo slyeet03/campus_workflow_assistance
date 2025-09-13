@@ -16,6 +16,7 @@ GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # CORS headers - SIMPLE FIX
 @app.after_request
@@ -126,6 +127,10 @@ def generate_quiz(summary_text, n_questions, marks_per_question):
 @app.route("/test", methods=["GET"])
 def test():
     return jsonify({"message": "Backend is working!", "status": "success"})
+
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "healthy", "message": "Backend is running"})
 @app.route("/upload_ppt", methods=["POST"])
 def upload_ppt():
     try:
@@ -249,10 +254,11 @@ def create_fake_meeting_link():
 
 # -------------------- RUN --------------------
 if __name__ == "__main__":
-    # Render provides PORT environment variable, use it or default to 5001 for local dev
+    # For Render deployment, use PORT environment variable or default to 5001
     port = int(os.environ.get("PORT", 5001))
     debug = os.environ.get("FLASK_ENV") != "production"
     print(f"Starting Flask app on port {port}...")
     print(f"Environment: PORT={os.environ.get('PORT', 'not set')}")
     print(f"Environment: FLASK_ENV={os.environ.get('FLASK_ENV', 'not set')}")
+    print(f"All environment variables: {dict(os.environ)}")
     app.run(debug=debug, host='0.0.0.0', port=port)

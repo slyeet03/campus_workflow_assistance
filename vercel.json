@@ -3,5 +3,16 @@
   "buildCommand": "./build-vercel.sh",
   "outputDirectory": "public",
   "installCommand": "",
-  "framework": null
+  "framework": null,
+  "functions": {
+    "api/test.py": {
+      "runtime": "python3.9"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ]
 }
