@@ -254,11 +254,6 @@ def create_fake_meeting_link():
 
 # -------------------- RUN --------------------
 if __name__ == "__main__":
-    # For Render deployment, use PORT environment variable or default to 5001
+    # Local development only
     port = int(os.environ.get("PORT", 5001))
-    debug = os.environ.get("FLASK_ENV") != "production"
-    print(f"Starting Flask app on port {port}...")
-    print(f"Environment: PORT={os.environ.get('PORT', 'not set')}")
-    print(f"Environment: FLASK_ENV={os.environ.get('FLASK_ENV', 'not set')}")
-    print(f"All environment variables: {dict(os.environ)}")
-    app.run(debug=debug, host='0.0.0.0', port=port)
+    app.run(debug=True, host="0.0.0.0", port=port)
