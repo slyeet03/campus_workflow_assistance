@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadExecutionLogs() {
     try {
-        const response = await fetch('http://localhost:5001/execution_log');
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/execution_log`);
         if (response.ok) {
             const backendLogs = await response.json();
             // Convert backend logs to our format

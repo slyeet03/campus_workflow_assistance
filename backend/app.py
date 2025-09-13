@@ -3,11 +3,15 @@ import json
 import requests
 from flask import Flask, jsonify, request, make_response
 from pptx import Presentation
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # -------------------- CONFIG --------------------
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-GOOGLE_API_KEY = "AIzaSyCozpuNd_caNfR0Xo-htgW5J6RpqF9yD1c"
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyCozpuNd_caNfR0Xo-htgW5J6RpqF9yD1c")
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={GOOGLE_API_KEY}"
 
 app = Flask(__name__)
@@ -245,5 +249,7 @@ def create_fake_meeting_link():
 
 # -------------------- RUN --------------------
 if __name__ == "__main__":
-    print("Starting Flask app on port 5001...")
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    port = int(os.getenv("PORT", 5001))
+    debug = os.getenv("FLASK_ENV") != "production"
+    print(f"Starting Flask app on port {port}...")
+    app.run(debug=debug, host='0.0.0.0', port=port)

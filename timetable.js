@@ -265,7 +265,7 @@ async function scheduleClass() {
         };
         
         // Call backend API
-        const response = await fetch('http://localhost:5001/schedule_class', {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/schedule_class`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

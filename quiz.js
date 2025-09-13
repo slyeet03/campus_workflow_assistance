@@ -75,7 +75,7 @@ async function generateQuiz() {
         addLogEntry('📤 Uploading file to backend...', 'info');
         
         // Call backend API
-        const response = await fetch('http://localhost:5001/upload_ppt', {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/upload_ppt`, {
             method: 'POST',
             body: formData
         });
@@ -261,7 +261,7 @@ async function publishQuiz() {
     
     try {
         // Call backend API to publish quiz
-        const response = await fetch('http://localhost:5001/publish_quiz', {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/publish_quiz`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -337,7 +337,7 @@ async function loadQuizManagement() {
 
 async function loadPendingQuizzes() {
     try {
-        const response = await fetch('http://localhost:5001/pending_quizzes');
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/pending_quizzes`);
         if (response.ok) {
             const pendingQuizzes = await response.json();
             displayPendingQuizzes(pendingQuizzes);
@@ -352,7 +352,7 @@ async function loadPendingQuizzes() {
 
 async function loadPublishedQuizzes() {
     try {
-        const response = await fetch('http://localhost:5001/published_quizzes');
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/published_quizzes`);
         if (response.ok) {
             const publishedQuizzes = await response.json();
             displayPublishedQuizzes(publishedQuizzes);
