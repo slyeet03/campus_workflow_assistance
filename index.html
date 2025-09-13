@@ -8,9 +8,40 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     
+    :root {
+      /* Primary Colors - Deep Navy & Royal Blue */
+      --primary-navy: #0f172a;
+      --primary-blue: #1e40af;
+      --primary-light: #3b82f6;
+      
+      /* Secondary Colors - Warm Gold & Emerald */
+      --secondary-gold: #f59e0b;
+      --secondary-amber: #fbbf24;
+      --accent-emerald: #10b981;
+      --accent-teal: #14b8a6;
+      
+      /* Neutral Palette */
+      --neutral-50: #f8fafc;
+      --neutral-100: #f1f5f9;
+      --neutral-200: #e2e8f0;
+      --neutral-300: #cbd5e1;
+      --neutral-400: #94a3b8;
+      --neutral-500: #64748b;
+      --neutral-600: #475569;
+      --neutral-700: #334155;
+      --neutral-800: #1e293b;
+      --neutral-900: #0f172a;
+      
+      /* Glass Colors */
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass-shadow: rgba(0, 0, 0, 0.1);
+    }
+    
+    
     body {
-      font-family: 'Inter', sans-serif;
-      background: #ffffff;
+      font-family: 'Times New Roman', serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
@@ -24,35 +55,35 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
-      animation: backgroundShift 20s ease-in-out infinite;
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
       z-index: -1;
     }
     
-    @keyframes backgroundShift {
-      0%, 100% { transform: translateX(0) translateY(0); }
-      25% { transform: translateX(-20px) translateY(-10px); }
-      50% { transform: translateX(20px) translateY(10px); }
-      75% { transform: translateX(-10px) translateY(20px); }
-    }
     
     .premium-navbar {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .premium-navbar:hover {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     }
     
     .premium-card {
-      background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 16px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
     
     .premium-card::before {
@@ -72,8 +103,9 @@
     
     .premium-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      border-color: rgba(99, 102, 241, 0.2);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
     }
     
     .magnify-animation {
@@ -89,19 +121,18 @@
     }
     
     .main-heading {
-      animation: gentlePulse 3s ease-in-out infinite;
-    }
-    
-    @keyframes gentlePulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
+      font-family: 'Times New Roman', serif;
+      font-weight: 700;
     }
     
     .nav-link {
       position: relative;
       transition: all 0.3s ease;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
     }
     
     .nav-link::after {
@@ -111,7 +142,7 @@
       left: 50%;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      background: linear-gradient(90deg, var(--primary-light), var(--secondary-gold));
       transition: all 0.3s ease;
       transform: translateX(-50%);
     }
@@ -121,21 +152,24 @@
     }
     
     .nav-link:hover {
-      background: rgba(99, 102, 241, 0.1);
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 1);
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
     .premium-btn {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(245, 158, 11, 0.2));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 14px 28px;
       color: white;
-      font-weight: 500;
-      transition: all 0.2s ease;
+      font-weight: 600;
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
     
     .premium-btn::before {
@@ -154,9 +188,10 @@
     }
     
     .premium-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-      background: linear-gradient(135deg, #5b5cf0 0%, #7c3aed 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(245, 158, 11, 0.3));
+      border-color: rgba(255, 255, 255, 0.4);
     }
     
     .floating-elements {
@@ -170,14 +205,14 @@
     .floating-circle {
       position: absolute;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08));
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(71, 85, 105, 0.06));
       animation: float 8s ease-in-out infinite;
     }
     
     .floating-square {
       position: absolute;
       border-radius: 8px;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.06), rgba(99, 102, 241, 0.06));
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.06), rgba(5, 150, 105, 0.04));
       animation: float 10s ease-in-out infinite reverse;
     }
     
@@ -227,7 +262,7 @@
     }
   </style>
 </head>
-<body class="text-gray-800">
+  <body class="text-white">
 
   <!-- Floating Background Elements -->
   <div class="floating-elements">
@@ -241,34 +276,34 @@
   <!-- Premium Navbar -->
   <nav class="premium-navbar p-6 flex justify-between items-center">
     <div class="flex items-center space-x-3">
-      <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+      <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg backdrop-filter blur(10px)">
         <span class="text-white font-bold text-lg">CF</span>
       </div>
-      <h1 class="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">CampusFlow</h1>
+      <h1 class="text-2xl font-bold text-white">CampusFlow</h1>
     </div>
     <div class="flex items-center space-x-2">
-      <a href="quiz.html" class="nav-link text-gray-700 font-medium hover:text-indigo-600">Quiz</a>
-      <a href="timetable.html" class="nav-link text-gray-700 font-medium hover:text-indigo-600">Timetable</a>
-      <a href="logs.html" class="nav-link text-gray-700 font-medium hover:text-indigo-600">Logs</a>
-      <a href="#" onclick="logout()" class="nav-link text-gray-700 font-medium bg-red-50 hover:bg-red-100 hover:text-red-600">Logout</a>
+      <a href="quiz.html" class="nav-link">Quiz</a>
+      <a href="timetable.html" class="nav-link">Timetable</a>
+      <a href="logs.html" class="nav-link">Logs</a>
+      <a href="#" onclick="logout()" class="nav-link bg-red-500/20 hover:bg-red-500/30 text-red-200 hover:text-red-100">Logout</a>
     </div>
   </nav>
 
   <!-- Main Section -->
   <div class="max-w-6xl mx-auto p-8">
     <div class="text-center mb-16">
-      <h1 class="text-6xl font-bold mb-6 text-gray-900 leading-tight">
+      <h1 class="text-6xl font-bold mb-6 text-white leading-tight main-heading">
         Flexible AI workflow automation<br>
-        <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">for campus teams</span>
+        <span class="bg-gradient-to-r from-blue-400 to-amber-400 bg-clip-text text-transparent">for campus teams</span>
       </h1>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+      <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
         Build with the precision of code or the speed of drag-n-drop. CampusFlow gives you more freedom to implement multi-step AI agents and integrate educational tools than any other platform.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <a href="quiz.html" class="premium-btn text-lg px-8 py-4 text-center block">
           Get started for free
         </a>
-        <a href="logs.html" class="text-gray-600 hover:text-gray-900 font-medium px-8 py-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors text-center block">
+        <a href="logs.html" class="text-gray-300 hover:text-white font-medium px-8 py-4 border border-white/20 rounded-lg hover:border-white/40 transition-colors text-center block backdrop-filter blur(10px)">
           View Analytics
         </a>
       </div>
@@ -276,49 +311,49 @@
 
     <!-- Features Section -->
     <div class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">
+      <h2 class="text-3xl font-bold text-center mb-12 text-white">
         The fast way to actually get AI working in your campus
       </h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Quiz Generator Card -->
         <div class="premium-card p-6 group">
-          <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mb-4 card-icon">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-amber-500 rounded-lg flex items-center justify-center mb-4 card-icon">
             <span class="text-xl">📄</span>
           </div>
-          <h3 class="text-xl font-semibold mb-3 text-gray-900">Quiz Generator</h3>
-          <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+          <h3 class="text-xl font-semibold mb-3 text-white">Quiz Generator</h3>
+          <p class="text-gray-300 mb-4 leading-relaxed text-sm">
             Upload lecture materials and let AI create comprehensive quizzes with intelligent question generation.
           </p>
-          <a href="quiz.html" class="text-indigo-600 hover:text-indigo-700 font-medium text-sm inline-flex items-center">
+          <a href="quiz.html" class="text-blue-400 hover:text-blue-300 font-medium text-sm inline-flex items-center">
             Generate Quiz →
           </a>
         </div>
 
         <!-- Timetable Manager Card -->
         <div class="premium-card p-6 group">
-          <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center mb-4 card-icon">
+          <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center mb-4 card-icon">
             <span class="text-xl">📅</span>
           </div>
-          <h3 class="text-xl font-semibold mb-3 text-gray-900">Smart Timetable</h3>
-          <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+          <h3 class="text-xl font-semibold mb-3 text-white">Smart Timetable</h3>
+          <p class="text-gray-300 mb-4 leading-relaxed text-sm">
             AI-powered scheduling that finds optimal time slots and manages conflicts automatically.
           </p>
-          <a href="timetable.html" class="text-indigo-600 hover:text-indigo-700 font-medium text-sm inline-flex items-center">
+          <a href="timetable.html" class="text-emerald-400 hover:text-emerald-300 font-medium text-sm inline-flex items-center">
             Schedule Class →
           </a>
         </div>
 
         <!-- Analytics Dashboard Card -->
         <div class="premium-card p-6 group">
-          <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mb-4 card-icon">
+          <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-4 card-icon">
             <span class="text-xl">📊</span>
           </div>
-          <h3 class="text-xl font-semibold mb-3 text-gray-900">Analytics Dashboard</h3>
-          <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+          <h3 class="text-xl font-semibold mb-3 text-white">Analytics Dashboard</h3>
+          <p class="text-gray-300 mb-4 leading-relaxed text-sm">
             Track AI performance, monitor system health, and analyze workflow efficiency in real-time.
           </p>
-          <a href="logs.html" class="text-indigo-600 hover:text-indigo-700 font-medium text-sm inline-flex items-center">
+          <a href="logs.html" class="text-purple-400 hover:text-purple-300 font-medium text-sm inline-flex items-center">
             View Analytics →
           </a>
         </div>
@@ -328,43 +363,43 @@
     <!-- Stats Section -->
     <div class="mt-20 mb-16">
       <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-900 mb-4">
+        <h2 class="text-3xl font-bold text-white mb-4">
           Trusted by educational institutions worldwide
         </h2>
-        <p class="text-gray-600 text-lg">
+        <p class="text-gray-300 text-lg">
           Join thousands of educators who are already automating their workflows
         </p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
         <div class="text-center">
-          <div class="text-4xl font-bold text-indigo-600 mb-2">500+</div>
-          <div class="text-gray-600">Educational Integrations</div>
+          <div class="text-4xl font-bold text-blue-400 mb-2">500+</div>
+          <div class="text-gray-300">Educational Integrations</div>
         </div>
         <div class="text-center">
-          <div class="text-4xl font-bold text-indigo-600 mb-2">50K+</div>
-          <div class="text-gray-600">Quizzes Generated</div>
+          <div class="text-4xl font-bold text-amber-400 mb-2">50K+</div>
+          <div class="text-gray-300">Quizzes Generated</div>
         </div>
         <div class="text-center">
-          <div class="text-4xl font-bold text-indigo-600 mb-2">99.9%</div>
-          <div class="text-gray-600">Uptime Guarantee</div>
+          <div class="text-4xl font-bold text-emerald-400 mb-2">99.9%</div>
+          <div class="text-gray-300">Uptime Guarantee</div>
         </div>
       </div>
     </div>
 
     <!-- CTA Section -->
-    <div class="text-center bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-12 mb-16">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4">
+    <div class="text-center bg-gradient-to-r from-white/10 to-white/5 rounded-2xl p-12 mb-16 backdrop-filter blur(20px) border border-white/20">
+      <h2 class="text-3xl font-bold text-white mb-4">
         Ready to transform your campus workflow?
       </h2>
-      <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+      <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
         Start building AI-powered workflows today. No credit card required.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="quiz.html" class="premium-btn text-lg px-8 py-4 text-center block">
           Start building for free
         </a>
-        <a href="timetable.html" class="text-gray-600 hover:text-gray-900 font-medium px-8 py-4 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-center block">
+        <a href="timetable.html" class="text-gray-300 hover:text-white font-medium px-8 py-4 border border-white/20 rounded-lg hover:border-white/40 transition-colors text-center block backdrop-filter blur(10px)">
           Schedule Classes
         </a>
       </div>
